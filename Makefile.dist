@@ -21,7 +21,7 @@ create-launcher:
 
 install:
 	@test ! -d node_modules && npm install || true
-	@test ! -d phpmyadmin/vendor && cd phpmyadmin && composer require || true
+	@test ! -d phpmyadmin/vendor && cd phpmyadmin && composer install || true
 	@test ! -f main.js && cp main.js.dist main.js && \
 		sed -i s@{{PROTOCOL}}@${PROTOCOL}@ main.js && \
 		sed -i s@{{HOSTNAME}}@${HOSTNAME}@ main.js && \
