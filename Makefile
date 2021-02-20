@@ -1,13 +1,40 @@
-PWD                 = $(shell pwd)
-PWDQ                = $(shell pwd | sed 's_/_\\/_g')
+# -- start of config -----------------------------------------------------
+
+DB_USERNAME     = USERNAME
+DB_PASSWORD     = PASSWORT
+
+DB_HOSTNAME     = localhost
+DB_PORT         = 3306
+
+PROTOCOL        = http://
+HOSTNAME        = localhost
+
+# -- end of config -----------------------------------------------------
+
+PWD_QUOTED      = $(shell pwd | sed 's_/_\\/_g')
+SECRET          = $(shell date | sha1sum | cut -d' ' -f1)
+PORT            = $(shell awk 'BEGIN{srand();printf("%d", 19000+1000*rand())}')
 
 create-launcher:
-	@echo ${PWDQ}
 	@cp phpMyAdmin.desktop.dist phpMyAdmin.desktop
-	@sed -i s@/PATH/TO@${PWDQ}@ phpMyAdmin.desktop
+	@sed -i s@/PATH/TO@${PWD_QUOTED}@ phpMyAdmin.desktop
+
+install:
+	@test ! -d node_modules && npm install || true
+	@test ! -d phpmyadmin/vendor && cd phpmyadmin && composer require || true
+	@test ! -f main.js && cp main.js.dist main.js && \
+		sed -i s@{{PROTOCOL}}@${PROTOCOL}@ main.js && \
+		sed -i s@{{HOSTNAME}}@${HOSTNAME}@ main.js && \
+		sed -i s@{{PORT}}@${PORT}@ main.js || true
+	@test ! -f phpmyadmin/config.inc.php && \
+		cp phpmyadmin/config.inc.php.dist phpmyadmin/config.inc.php && \
+		sed -i s@{{DB_USERNAME}}@${DB_USERNAME}@ phpmyadmin/config.inc.php && \
+		sed -i s@{{DB_PASSWORD}}@${DB_PASSWORD}@ phpmyadmin/config.inc.php && \
+		sed -i s@{{DB_HOSTNAME}}@${DB_HOSTNAME}@ phpmyadmin/config.inc.php && \
+		sed -i s@{{DB_PORT}}@${DB_PORT}@ phpmyadmin/config.inc.php && \
+		sed -i s@{{SECRET}}@${SECRET}@ phpmyadmin/config.inc.php || true
 
 start:
 	@npm start
 
-stop:
-	@npm stop
+

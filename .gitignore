@@ -3,5 +3,10 @@
 /out
 /npm-debug.log
 /phpMyAdmin.desktop
+/phpmyadmin/tmp
+/phpmyadmin/vendor
+/phpmyadmin/config.inc.php
+/main.js
 
 config.inc.php
+
