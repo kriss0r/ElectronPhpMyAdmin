@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=0.1
+Name=phpMyAdmin
+Comment=phpMyAdmin
+Path=/PATH/TO
+Exec=/PATH/TO/node_modules/electron/dist/electron .
+Icon=/PATH/TO/assets/launcher-icon/app.ico
+Terminal=false
+Type=Application
+Categories=Utility;Application;

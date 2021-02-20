@@ -1,4 +1,7 @@
-node_modules
-vendor
-config.inc.php
+/node_modules
+/vendor
 /out
+/npm-debug.log
+/phpMyAdmin.desktop
+
+config.inc.php
